@@ -1,13 +1,25 @@
 <div class="panel_block" >
   <div class="submenu" >
 <form class="padding" method="POST" >
-<input  placeholder="分类"  type="text" name="category" list="category_item" value="<?php echo  $category;?>" autocomplete="off" />
-&nbsp;
-日期  <input type="date" name="sdate" class="input-medium" value="<?php echo  $sdate;?>"/>
--
-<input type="date" name="edate" class="input-medium" value="<?php echo  $edate;?>" /> <input type="submit" value="搜索" class="btn btn-primary"/>  
-&nbsp;
-<a href="<?php echo  BASE;?>store/export_history/" class="btn" >导出EXCEL</a>
+<h2>検索条件</h2>
+<table class="table">
+	<tr>
+		<th>カテゴリ名</th>
+		<td><input  placeholder="カテゴリ名"  type="text" name="category" list="category_item" value="<?php echo  $category;?>" autocomplete="off" /></td>
+	</tr>
+	<tr>
+		<th>親カテゴリ</th>
+		<td>
+			<select class="input-small" required name="action_label">
+        		<option>入库</option>
+        		<option>盘盈</option>
+      		</select>
+      	</td>
+	</tr>
+</table>
+<div>
+ <input type="submit" value="搜索" class="btn btn-primary"/>  
+</div>
  </form>
 </div>
 
@@ -27,7 +39,7 @@
 
 
 <div class="clear" ></div>
-
+<h2>検索結果</h2>
 <div class="pagination" ><?php echo  $pagination;?></div>
 <table class="table table-striped" id="jtable">
 <?php if(is_array($records )){?>

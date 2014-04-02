@@ -74,6 +74,41 @@ class store extends base{
   }
   
  function category(){
+ 	global $app_id;
+ 	$where = " and app_id='".$app_id."'";
+ 	$str = '';
+ 	$param = array();
+ 	
+ 	$param['category'] = $category =  addslashes(isset($_POST['category'])?$_POST['category']:'');
+ 	if($category){
+ 		$where.="  and category = '$category'";
+ 		$str.= '&category='.$category;
+ 	}
+ 	/*
+ 	 $param['customer'] = $customer =  addslashes($_POST['customer']?$_POST['customer']:'');
+ 	if($customer){
+ 	$where.="  and customer = '$customer'";
+ 	$str.= '&customer='.$customer;
+ 	}
+ 	*/
+ 	 
+ 	$sdate = $param['sdate'] =  isset($_POST['sdate'])?$_POST['sdate']:date('Y-m-d');
+ 	$sd = strtotime($sdate);
+ 	$where.="  and datetime > $sd";
+ 	$str.= '&sdate='.$sdate;
+ 	
+ 	
+ 	$param['edate'] = $edate = isset($_POST['edate'])?$_POST['edate']:date('Y-m-d');
+ 	$ed = strtotime($edate) + 24* 3600;
+ 	$where.="  and datetime < $ed";
+ 	$str.= '&edate='.$edate;
+ 	
+ 	
+ 	$tot = $this->m->count($where);
+ 	$psize = 300;
+ 	$pcurrent = isset( $_GET['p'] )? $_GET['p']:0;
+ 	$param['pagination'] = pagination($tot , $pcurrent , $psize ,BASE.'stock/history&'.$str.'&p=');
+ 	$param['records'] = $this->m->get($where.' order by datetime desc' , $pcurrent ,  $psize);
  	$this->display('v/store/category',$param);
  }
   function history()
