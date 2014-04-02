@@ -1,0 +1,60 @@
+
+<?php phpinfo();?>>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Insert title here</title>
+</head>
+
+    <body>
+    <p>This page uses frames. The current browser you are using does not support frames.</p>
+    <?php
+    
+     // mysql
+    $c =  @mysql_connect("localhost", "root", "mysql");
+    
+    if(!$c) {
+    	die(@mysql_error());
+    	echo "eee";
+    }
+    echo "ok mysql_connect\n";
+    echo "<br>";
+    $dbs = @mysql_select_db("kaigodb");
+    if(!$dbs){
+    	die(@mysql_error());
+    	echo "eeee";
+    }
+    echo "ok mysql_select_db\n";
+    echo "<br>";
+    $result = mysql_query("SELECT 'Hello, dear MySQL user!' AS _message FROM category");
+    $row = @mysql_fetch_assoc($result);
+    echo "<br>123";
+    echo $row;
+    echo htmlentities($row['_message']);
+
+    
+    require_once('database/DBConnection.php');
+    $dbSetting = parse_ini_file('config/database.conf');
+    $db_host = $dbSetting['db.host'];
+    echo $db_host;
+    echo "<br>";
+    $db_user = $dbSetting['db.user'];
+    $db_password = $dbSetting['db.password'];
+    $db_name = $dbSetting['db.name'];
+    echo $db_name;
+    echo "<br>";
+    $dbObj = new DataBaseConnection($db_host, $db_user,$db_password,$db_name);
+   
+    //$results = $dbObj->query("SELECT * FROM category");
+    $results = mysql_query("SELECT * FROM category");
+    $row = mysql_fetch_array($results);
+    //echo $row;
+    //$fetch = $dbObj->fetch_array($results);
+    print_r($row);
+    //echo $fetch
+	?>
+	<p>123</p>
+    </body>
+
+</html>
